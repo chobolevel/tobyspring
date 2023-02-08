@@ -3,10 +3,11 @@ package tobyspring.helloboot.kafka;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import java.io.IOException;
 import java.util.Properties;
 
 public class Producer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Properties configs = new Properties();
         configs.put("bootstrap.servers", "localhost:9092");
@@ -15,7 +16,7 @@ public class Producer {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
 
-        ProducerRecord record = new ProducerRecord<String, String> ("dev-topic", "login");
+        ProducerRecord<String, String> record = new ProducerRecord<>("dev-topic", "login");
 
         producer.send(record);
 

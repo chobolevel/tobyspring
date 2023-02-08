@@ -4,11 +4,12 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
 public class Consumer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Properties configs = new Properties();
         configs.put("bootstrap.servers", "localhost:9092");
@@ -25,6 +26,7 @@ public class Consumer {
             for(ConsumerRecord record : records) {
                 System.out.println("============" + record.value() + "============");
             }
+            consumer.close();
         }
 
     }
