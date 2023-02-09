@@ -1,26 +1,48 @@
 package tobyspring.helloboot.kafka;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.util.concurrent.ListenableFuture;
 
-import java.io.IOException;
-import java.util.Properties;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class Producer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
-        Properties configs = new Properties();
-        configs.put("bootstrap.servers", "localhost:9092");
-        configs.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        configs.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        Map<String, Object> configs = new HashMap<>();
+        configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        configs.put(ProducerConfig.ACKS_CONFIG, "1");
+        configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
+        ProducerFactory<String, Object> producerFactory = new DefaultKafkaProducerFactory<>(configs);
 
-        ProducerRecord<String, String> record = new ProducerRecord<>("dev-topic", "login");
+        KafkaTemplate<String, Object> kafkaTemplate = new KafkaTemplate<>(producerFactory);
 
-        producer.send(record);
+        // 객체 생성 부분
+        Person person = new Person();
+        person.setId(UUID.randomUUID().toString());
+        person.setName("DOPA");
+        List<String> ids = new ArrayList<>();
+        ids.add("id1");
+        ids.add("id2");
+        ids.add("id3");
+        person.setIds(ids);
 
-        producer.close();
+        ListenableFuture<SendResult<String, Object>> res = kafkaTemplate.send("chobo", person);
+
+        System.out.println("-------------------------------------");
+        System.out.println(res.get().getProducerRecord().topic());
+        System.out.println(res.get().getProducerRecord().partition());
+        System.out.println(res.get().getProducerRecord().value());
+        System.out.println(res.get().getProducerRecord().timestamp());
+        System.out.println("-------------------------------------");
 
     }
 }

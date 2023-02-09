@@ -1,33 +1,40 @@
 package tobyspring.helloboot.kafka;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Consumer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        Properties configs = new Properties();
-        configs.put("bootstrap.servers", "localhost:9092");
-        configs.put("group.id", "dev-topic-group");
-        configs.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        configs.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        Map<String, Object> configs = new HashMap<>();
+        configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        configs.put(ConsumerConfig.GROUP_ID_CONFIG, "chobo_group");
+        configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configs);
+        KafkaConsumer<String, Person> consumer = new KafkaConsumer<>(configs);
 
-        consumer.subscribe(Arrays.asList("dev-topic"));
+        consumer.subscribe(List.of("chobo"));
 
-        while(true) {
-            ConsumerRecords<String, String> records = consumer.poll(500);
-            for(ConsumerRecord record : records) {
-                System.out.println("============" + record.value() + "============");
-            }
-            consumer.close();
+        ConsumerRecords<String, Person> records = consumer.poll(500);
+        for(ConsumerRecord<String, Person> record : records) {
+            System.out.println("-------------------------------------------------");
+            System.out.println(record.topic());
+            System.out.println(record.partition());
+            System.out.println(record.value());
+            System.out.println(record.timestamp());
+            System.out.println("-------------------------------------------------");
         }
+
+        consumer.close();
 
     }
 }
