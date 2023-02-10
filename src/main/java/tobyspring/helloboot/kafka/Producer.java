@@ -28,7 +28,7 @@ public class Producer {
         // 객체 생성 부분
         Person person = new Person();
         person.setId(UUID.randomUUID().toString());
-        person.setName("DOPA");
+        person.setName("Kang");
         List<String> ids = new ArrayList<>();
         ids.add("id1");
         ids.add("id2");
