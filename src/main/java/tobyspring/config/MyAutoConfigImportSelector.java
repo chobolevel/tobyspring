@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyAutoConfigImportSelector implements DeferredImportSelector {
-
     private final ClassLoader classLoader;
 
     public MyAutoConfigImportSelector(ClassLoader classLoader) {
@@ -18,10 +17,8 @@ public class MyAutoConfigImportSelector implements DeferredImportSelector {
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
         List<String> autoConfigs = new ArrayList<>();
-
         ImportCandidates.load(MyAutoConfiguration.class, classLoader).forEach(autoConfigs::add);
-
         return autoConfigs.toArray(new String[0]);
     }
-}
 
+}

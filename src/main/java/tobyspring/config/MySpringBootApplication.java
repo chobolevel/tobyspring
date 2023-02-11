@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@ComponentScan
 @Configuration
+@ComponentScan
 @EnableMyAutoConfiguration
 public @interface MySpringBootApplication {
 }
