@@ -18,7 +18,7 @@ public class HelloApiTest {
 
         TestRestTemplate rest = new TestRestTemplate();
 
-        ResponseEntity<String> res = rest.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
+        ResponseEntity<String> res = rest.getForEntity("http://localhost:8080/app/hello?name={name}", String.class, "Spring");
 
         // status code 200
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -32,7 +32,7 @@ public class HelloApiTest {
     @Test
     void failHelloApi() {
         TestRestTemplate rest = new TestRestTemplate();
-        ResponseEntity<String> res = rest.getForEntity("http://localhost:8080/hello?name", String.class);
+        ResponseEntity<String> res = rest.getForEntity("http://localhost:8080/app/hello?name", String.class);
 
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }

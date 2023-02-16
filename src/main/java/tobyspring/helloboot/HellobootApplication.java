@@ -10,13 +10,13 @@ import tobyspring.config.MySpringBootApplication;
 @MySpringBootApplication
 public class HellobootApplication {
 
-	@Bean
-	ApplicationRunner applicationRunner(Environment env) {
-		return args -> {
-			String property = env.getProperty("my.name");
-			System.out.println("my name : "+ property);
-		};
-	}
+//	@Bean
+//	ApplicationRunner applicationRunner(Environment env) {
+//		return args -> {
+//			String property = env.getProperty("my.name");
+//			System.out.println("my name : "+ property);
+//		};
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(HellobootApplication.class, args);
