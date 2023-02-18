@@ -10,6 +10,7 @@ import tobyspring.config.MySpringBootApplication;
 @MySpringBootApplication
 public class HellobootApplication {
 
+//	스프링부트 어플리케이션 구동 후 간단한 코드를 테스트하기 위한 Bean
 //	@Bean
 //	ApplicationRunner applicationRunner(Environment env) {
 //		return args -> {

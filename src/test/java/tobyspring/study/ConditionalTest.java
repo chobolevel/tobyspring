@@ -16,6 +16,7 @@ public class ConditionalTest {
 
     @Test
     void conditional() {
+
 //        AnnotationConfigWebApplicationContext ac1 = new AnnotationConfigWebApplicationContext();
 //        ac1.register(Config1.class);
 //        ac1.refresh();

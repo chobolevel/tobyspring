@@ -24,7 +24,7 @@ public class TomcatWebServerConfig {
         return factory;
     }
 
-//    Environment를 이용해서 환경변수를 가져오는 방법
+//    Environment를 이용해서 환경변수를 가져오는 방법(외부설정을 이용한 자동 구성 챕터)
 //    @Bean("tomcatWebServerConfig")
 //    @ConditionalOnMissingBean
 //    public ServletWebServerFactory servletWebServerFactory(Environment env) {
